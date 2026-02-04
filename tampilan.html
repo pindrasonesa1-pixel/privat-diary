@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Self - Private Diary & Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%);
+            background-attachment: fixed;
+            color: white;
+            min-h-screen;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .accent-rosegold { color: #e2b4a8; }
+        .btn-rosegold {
+            background: linear-gradient(135deg, #e2b4a8 0%, #c19287 100%);
+            color: #2e1065;
+        }
+
+        /* Book Shelf Styling */
+        .book-cover {
+            width: 140px;
+            height: 200px;
+            border-radius: 4px 15px 15px 4px;
+            border-left: 5px solid rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .book-cover:hover {
+            transform: rotateY(-20deg) scale(1.05);
+            box-shadow: 15px 15px 25px rgba(0,0,0,0.5);
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <section id="authPage" class="min-h-screen flex items-center justify-center p-6">
+        <div class="glass-card w-full max-w-md p-10 rounded-[2.5rem] shadow-2xl">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold accent-rosegold mb-2">Dear Self.</h1>
+                <p class="text-white/60 text-sm italic">"Enjoy the little things"</p>
+            </div>
+
+            <form id="authForm" class="space-y-5">
+                <div id="registerFields" class="hidden">
+                    <label class="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Email</label>
+                    <input type="email" class="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#e2b4a8]">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Username</label>
+                    <input type="text" id="usernameInput" placeholder="Ketik namamu..." class="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#e2b4a8]">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#e2b4a8]">
+                </div>
+                <button type="submit" class="btn-rosegold w-full py-4 rounded-xl font-bold mt-4 shadow-lg active:scale-95 transition">Masuk ke Diary</button>
+            </form>
+
+            <div class="mt-8 text-center text-sm">
+                <p id="toggleText" class="opacity-40">Belum punya ruang privat?</p>
+                <button onclick="toggleAuth()" id="toggleBtn" class="accent-rosegold font-bold hover:underline mt-2">Daftar sekarang</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboardPage" class="hidden min-h-screen">
+        <nav class="glass-card sticky top-0 z-50 px-8 py-5 flex justify-between items-center border-b border-white/10">
+            <h2 class="text-2xl font-bold accent-rosegold">Dear Self.</h2>
+            <button onclick="logout()" class="text-xs bg-white/5 px-4 py-2 rounded-lg hover:bg-red-500/20 transition">Keluar</button>
+        </nav>
+
+        <main class="max-w-6xl mx-auto p-8">
+            <header class="mb-12">
+                <h1 class="text-4xl font-bold mb-2">Halo, <span id="displayName" class="accent-rosegold">Penulis</span></h1>
+                <p class="opacity-50 italic">"Semua kenangan tersimpan rapi di sini."</p>
+            </header>
+
+            <section class="mb-16">
+                <div class="flex items-center gap-4 mb-8">
+                    <h3 class="text-xl font-semibold opacity-80 uppercase tracking-widest text-sm">Perpustakaan Kenangan</h3>
+                    <div class="h-[1px] flex-1 bg-white/10"></div>
+                </div>
+                <div class="flex flex-wrap gap-10">
+                    <div class="text-center">
+                        <div class="book-cover bg-gradient-to-br from-indigo-500 to-purple-900 flex flex-col justify-center p-4">
+                            <p class="text-[10px] uppercase opacity-60">Februari</p>
+                            <p class="text-xs font-bold mt-2">Perjalanan Awal</p>
+                        </div>
+                        <p class="mt-3 text-[10px] opacity-40">12 Entri</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="book-cover bg-gradient-to-br from-[#e2b4a8] to-[#9c7a72] flex flex-col justify-center p-4 text-indigo-950">
+                            <p class="text-[10px] uppercase opacity-70">Januari</p>
+                            <p class="text-xs font-bold mt-2">Resolusi 2026</p>
+                        </div>
+                        <p class="mt-3 text-[10px] opacity-40">8 Entri</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="flex flex-col md:flex-row gap-4 mb-10">
+                <input type="text" placeholder="Cari kenangan lama..." class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#e2b4a8]">
+                <button onclick="openModal()" class="btn-rosegold px-10 py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
+                    <span>+</span> Tulis Baru
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-[2rem] hover:border-[#e2b4a8] transition duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] opacity-40">03 FEB 2026</span>
+                        <span class="text-xl">✨</span>
+                    </div>
+                    <h4 class="text-lg font-bold mb-3 accent-rosegold">Halaman Pertama</h4>
+                    <p class="text-sm opacity-60 leading-relaxed line-clamp-3 mb-6">Mulai membangun sistem diary estetik hari ini. Desain glassmorphism-nya keren banget!</p>
+                    <div class="flex justify-between border-t border-white/10 pt-4">
+                        <span class="text-[10px] bg-white/5 px-3 py-1 rounded-full">#Ide</span>
+                        <button class="text-[10px] text-red-400 opacity-50">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <div id="editorModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-3xl rounded-[2.5rem] p-10 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-xl font-bold accent-rosegold">Tuangkan Pikiranmu</h3>
+                <button onclick="closeModal()" class="text-3xl opacity-30 hover:opacity-100">&times;</button>
+            </div>
+            
+            <form class="space-y-6">
+                <input type="text" placeholder="Judul Kenangan..." class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-xl focus:outline-none">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <select class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none">
+                        <option class="bg-slate-900">Pilih Mood</option>
+                        <option class="bg-slate-900">😊 Bahagia</option>
+                        <option class="bg-slate-900">😔 Sedih</option>
+                        <option class="bg-slate-900">🌙 Tenang</option>
+                    </select>
+                    <input type="date" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none">
+                </div>
+
+                <textarea rows="8" placeholder="Apa yang kamu rasakan?" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 focus:outline-none"></textarea>
+
+                <div class="border-2 border-dashed border-white/10 rounded-2xl p-8 text-center hover:border-[#e2b4a8] transition cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                    <span class="text-3xl block mb-2">🖼️</span>
+                    <p class="text-xs opacity-40">Tambah Foto atau Video Kenangan</p>
+                    <input type="file" id="fileInput" class="hidden" multiple accept="image/*,video/*">
+                    <div id="previewArea" class="flex flex-wrap gap-2 mt-4 justify-center"></div>
+                </div>
+
+                <button type="button" onclick="saveEntry()" class="btn-rosegold w-full py-5 rounded-2xl font-bold">Simpan ke Memori</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 1. Toggle Login/Register
+        let isLogin = true;
+        function toggleAuth() {
+            isLogin = !isLogin;
+            document.getElementById('registerFields').classList.toggle('hidden');
+            document.getElementById('toggleText').innerText = isLogin ? "Belum punya ruang privat?" : "Sudah punya akun?";
+            document.getElementById('toggleBtn').innerText = isLogin ? "Daftar sekarang" : "Login saja";
+        }
+
+        // 2. Simulasi Login
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('usernameInput').value;
+            if(user) {
+                document.getElementById('displayName').innerText = user;
+                document.getElementById('authPage').classList.add('hidden');
+                document.getElementById('dashboardPage').classList.remove('hidden');
+            }
+        });
+
+        // 3. Logout
+        function logout() {
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+        }
+
+        // 4. Modal Logic
+        function openModal() { document.getElementById('editorModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('editorModal').classList.add('hidden'); }
+
+        // 5. Preview Media
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const preview = document.getElementById('previewArea');
+            preview.innerHTML = '';
+            Array.from(this.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (ex) => {
+                    const img = document.createElement('img');
+                    img.src = ex.target.result;
+                    img.className = "w-16 h-16 object-cover rounded-lg border border-white/20";
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function saveEntry() {
+            alert("Kenanganmu tersimpan! (Simulasi)");
+            closeModal();
+        }
+    </script>
+</body>
+</html>
